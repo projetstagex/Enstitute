@@ -1,0 +1,96 @@
+<script>
+
+$(document).ready(function(){
+
+    $(".add-absence").attr("disabled", true);
+    $(".add-delay").attr("disabled", true);
+
+
+    $("#submit_selects").attr("disabled", true);
+    $("#formations_select").empty();
+    $("#grades_select").empty();
+
+    $.ajax({
+        type: "POST",
+        url: "@Url.Action("LoadFormations")",
+        dataType: "text",
+        success: function (msg) {
+            data = JSON.parse(msg);
+            $.each(data, function(k, v) {
+                $("#formations_select").append( "\
+                    <option value='"+ v["id"] +"'>"+ v["label"] +"</option>\
+                ");
+            });
+        },
+        error: function (req, status, error) {
+            ShowAlert( "danger_alert", "500 Internal server error" );
+        } 
+    });
+
+    $.ajax({
+        type: "POST",
+        url: "@Url.Action("LoadGrades")",
+        dataType: "text",
+        success: function (msg) {
+            data = JSON.parse(msg);
+            $.each(data, function(k, v) {
+                $("#grades_select").append( "<option value='"+ v["id"] +"'>"+ v["label"] +"</option>" );
+            });
+        },
+        error: function (req, status, error) {
+            ShowAlert( "danger_alert", "500 Internal server error" );
+        } 
+    });
+
+    $("#grades_select").change(function(){
+        $("#groups_select").empty();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadGroups")",
+            dataType: "text",
+            data : { 
+                gradeId : $("#grades_select").val() ,
+                formationID : $("#formations_select").val() 
+            },
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $.each(data, function(k, v) {
+                    $("#groups_select").append( "\
+                        <option value='"+ v["id"] +"'>"+ v["label"] +"</option>\
+                    ");
+                });
+                $("#submit_selects").attr("disabled", false);
+            },
+            error: function (req, status, error) {
+                ShowAlert( "danger_alert", "500 Internal server error" );
+            } 
+        });
+    });
+
+    $("#formations_select").change(function(){
+        $("#groups_select").empty();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadGroups")",
+            dataType: "text",
+            data : { 
+                gradeId : $("#grades_select").val() ,
+                formationID : $("#formations_select").val() 
+            },
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $.each(data, function(k, v) {
+                    $("#groups_select").append( "\
+                        <option value='"+ v["id"] +"'>"+ v["label"] +"</option>\
+                    ");
+                });
+                $("#submit_selects").attr("disabled", false);
+            },
+            error: function (req, status, error) {
+                ShowAlert( "danger_alert", "500 Internal server error" );
+            } 
+        });
+    });
+});
+ 
+</script>

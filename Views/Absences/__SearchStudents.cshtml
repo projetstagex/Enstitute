@@ -1,0 +1,59 @@
+<script>
+
+
+$(document).ready(function(){
+    $("#submit_selects").click(function(){
+        var group_id = $("#groups_select").val();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadStudents")",
+            data: {
+                group_id: group_id 
+            },
+            dataType: "text",
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $("#tableFull").empty();
+                $("#tableFull").append('\
+                    <tr>     \
+                        <th></th>\
+                        <th>#</th>\
+                        <th class="d-none d-md-table-cell">Full Name</th>\
+                        <th class="d-none d-md-table-cell">Gender</th>\
+                        <th class="d-none d-md-table-cell">Nationality</th>\
+                        <th class="d-none d-md-table-cell">Is training</th>\
+                    </tr>\
+                ');
+                
+                $.each(data, function(k, v) {
+                    var is_training = ""
+                    if ( v['is_training'] == true )  is_training = "Is Training";
+                    else if ( v['is_training'] == false )  is_training = "Is Out";
+
+                    $("#tableFull").append( " \
+                            <tr> \
+                                <th>\
+                                    <label class='custom-control custom-checkbox'>\
+                                        <input type='checkbox' class='custom-control-input' name='' value='" + v['inscriptionNumber'] + "'>\
+                                        <div class='custom-control-label'></div>\
+                                    </label>\
+                                </th>\
+                                <td class='d-none d-sm-table-cell'>" + v['inscriptionNumber'] + "</td> \
+                                <td class='d-none d-sm-table-cell'>" + v['lastName'] + " " + v['firstName'] + "</td> \
+                                <td class='d-none d-sm-table-cell'>" + v['gender']['label'] + "</td> \
+                                <td class='d-none d-sm-table-cell'>" + v['nationality'] + "</td> \
+                                <td class='d-none d-sm-table-cell'>" + is_training + "</td> \
+                            </tr> \
+                    ");
+                });
+                $(".add-absence").attr("disabled", false);
+                $(".add-delay").attr("disabled", false);
+            },
+            error: function (req, status, error) {
+                ShowAlert( "danger_alert", "500 Internal server error" );
+            } 
+        });
+    });
+});
+ 
+</script>

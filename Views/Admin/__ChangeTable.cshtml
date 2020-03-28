@@ -1,0 +1,84 @@
+<script> 
+
+
+$( document ).ready( function() {
+    $( ".add-new-button" ).hide();
+
+
+    $( "input[name='button_change']" ).click(function(){
+
+        var input = "";
+
+        $( ".table-data" ).empty();
+
+        var value = $(this).val();
+        $( ".add-new-button" ).show();
+
+        if ( value == "module" ){
+            $( ".add-new-button" ).attr("data-target", "AddModule");
+            $( ".add-new-button" ).attr("id", "module_add_btn");
+            $( ".header-search" ).attr( "id", "module_search" );
+            RefreashModuleTable(input);
+        }  
+        else if ( value == "precision" ){
+            $( ".add-new-button" ).attr("data-target", "AddPrecision");
+            $( ".add-new-button" ).attr("id", "precision_add_btn");
+            $( ".header-search" ).attr( "id", "precision_search" );
+            RefreashPrecisionTable(input);
+        }
+        else if ( value == "context" ){
+            $( ".add-new-button" ).attr("data-target", "AddContext");
+            $( ".add-new-button" ).attr("id", "context_add_btn");
+            $( ".header-search" ).attr( "id", "context_search" );
+            RefreashContextTable(input);
+        }
+        else if( value == "student"){
+            $( ".add-new-button" ).attr("data-target", "AddStudent");
+            $( ".add-new-button" ).attr("id", "student_add_btn");
+            $( ".header-search" ).attr( "id", "student_search" );
+            RefreashStudentTable(input);
+        }
+        else if ( value == "departement" ){
+            $( ".add-new-button" ).attr("data-target", "AddDepartement");
+            $( ".add-new-button" ).attr("id", "departement_add_btn");
+            $( ".header-search" ).attr( "id", "departement_search" );
+            RefreashDepartementTable(input);
+        }
+        else if ( value == "formation" ){
+            $( ".add-new-button" ).attr("data-target", "AddFormation");
+            $( ".add-new-button" ).attr("id", "formation_add_btn");
+            $( ".header-search" ).attr( "id", "formation_search" );
+            RefreashFormationTable(input);
+        }
+        else if ( value == "grade" ){
+            $( ".add-new-button" ).attr("data-target", "AddGrade");
+            $( ".add-new-button" ).attr("id", "grade_add_btn");
+            $( ".header-search" ).attr( "id", "grade_search" );
+            RefreashGradeTable(input);
+        }
+        else if ( value == "sector" ){
+            $( ".add-new-button" ).attr("data-target", "AddSector");
+            $( ".add-new-button" ).attr("id", "sector_add_btn");
+            $( ".header-search" ).attr( "id", "sector_search" );
+            RefreashSectorTable();
+
+        }
+        else if ( value == "group" ){
+            $( ".add-new-button" ).attr("data-target", "AddGroup");
+            $( ".add-new-button" ).attr("id", "group_add_btn");
+            $( ".header-search" ).attr( "id", "group_search" )
+            RefreashGroupTable(input);
+            
+        }
+        else if ( value == "ma" ){
+            $( ".add-new-button" ).attr("data-target", "AddMA");
+            $( ".add-new-button" ).attr("id", "ma_add_btn");
+            $( ".header-search" ).attr( "id", "ma_search" )
+            RefreashModuleAffectationTable(input);
+        }
+        
+    });
+});
+
+
+</script>

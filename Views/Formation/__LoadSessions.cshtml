@@ -1,0 +1,114 @@
+<script>
+
+    $(document).ready( function() {
+
+        $( ".modules_affectations" ).change( function() {
+        
+        $( ".card-table" ).empty();
+
+         $( ".card-table" ).append('\
+            <tr>\
+                <th>#</th>\
+                <th class="d-none d-md-table-cell">Type</th>\
+                <th class="d-none d-md-table-cell">Date</th>\
+                <th class="d-none d-md-table-cell">Day</th>\
+                <th class="d-none d-md-table-cell">Day-Part</th>\
+            </tr>\
+        ');
+
+        var id = $( this ).val();
+
+        $.ajax({
+            type: "POST",
+            url : "@Url.Action("LoadSessions")",
+            data : { module_affectation_id : id },
+            dataType: "text",
+            async:false,
+            success: function (msg) {
+                data = JSON.parse(msg);
+                var i = 0;
+                var ids = [];
+                $.each( data, function ( key, value ) {
+                    
+                    var error = false;
+                    var ide = value["session"]["id"];
+
+                    for (i = 0; i < ids.length; i++) {
+                        if ( ids[i] == ide ) 
+                            error = true;
+                    }
+
+                    if( error == false ){
+                        
+                    ids.push(ide);
+                    var type = "Constante";
+                    var background = "none";
+
+                    $( ".card-table" ).append('\
+                    <tr style="background-color:'+ background +'" >\
+                        <td class="d-none d-md-table-cell">'+ i +'</td>\
+                        <td class="d-none d-md-table-cell">'+ type +'</td>\
+                        <td class="d-none d-md-table-cell">'+ value["session"]["day"]["label"] +'</td>\
+                        <td class="d-none d-md-table-cell">'+ value["date"] +'</td>\
+                        <td class="d-none d-md-table-cell"> S'+ value["session"]["timePart"] +'</td>\
+                    </tr>\
+                    ');
+                    }
+                    i+=1;
+                });
+            },
+            error: function (req, status, error) {
+                ShowAlert( "danger_alert", "500 Internal server error" );
+            } 
+        });
+
+        $.ajax({
+            type: "POST",
+            url : "@Url.Action("LoadSessionsRatt")",
+            data : { 
+                module_affectation_id : id 
+            },
+            dataType: "text",
+            async:false,
+            success: function (msg) {
+                data2 = JSON.parse(msg);
+                var i2 = 0;
+                var ids2 = [];
+                $.each( data2, function ( key, value ) {   
+                    var error2 = false;
+                    var ide2 = value["id"];
+                    for (i = 0; i < ids2.length; i++) {
+                        if ( ids2[i] == ide2 ) 
+                            error2 = true;
+                    }
+
+                    if( error2 == false ){
+                        ids2.push(ide2);
+                        var type = "Rattrappage";
+                        var background = "#467fcf";
+                        $( ".card-table" ).append('\
+                        <tr style="background-color:'+ background +';color:white" >\
+                            <td class="d-none d-md-table-cell">'+ i2 +'</td>\
+                            <td class="d-none d-md-table-cell">'+ type +'</td>\
+                            <td class="d-none d-md-table-cell">'+ value["day"]["label"] +'</td>\
+                            <td class="d-none d-md-table-cell">'+ value["date"] +'</td>\
+                            <td class="d-none d-md-table-cell"> S'+ value["timePart"] +'</td>\
+                        </tr>\
+                        ');
+                    }
+                    i2+=1;
+                });
+            },
+            error: function (req, status, error) {
+                ShowAlert( "danger_alert", "500 Internal server error" );
+            } 
+        });
+
+
+
+        });
+       
+    });
+
+
+</script> 

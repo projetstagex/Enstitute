@@ -1,0 +1,30 @@
+@{
+    ViewData["Title"] = "Students";
+}
+
+
+<div class="page-header">
+    <h1 class="page-title">
+    Consulter Stagiaires
+    </h1>
+</div>
+<div class="row row-cards">
+    @{
+        <partial name="_SideField" ></partial>
+        <partial name="_TableField" ></partial>
+        <partial name="_Modal" ></partial>
+        <partial name="_ModalDelay" ></partial>
+        <partial name="_ModalDelayHour" ></partial>
+        <partial name="_ModalHour" ></partial>
+    }
+
+</div>
+@{
+    <partial name="__LoadSelects" ></partial>
+    <partial name="__LoadModalSelects" ></partial>
+    <partial name="__LoadModalDelaySelects" ></partial>
+    <partial name="__SearchStudents" ></partial>
+    <partial name="__AddAbsence" ></partial>
+    <partial name="__AddDelay" ></partial>
+    <partial name="__LoadModalHour" ></partial>
+}

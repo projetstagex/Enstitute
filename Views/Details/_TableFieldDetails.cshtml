@@ -1,0 +1,32 @@
+<div class="col-lg-8">
+    <div class="card">
+        <table class="table card-table table-vcenter">
+            <tr>
+                <th>#</th>
+                <th class="d-none d-md-table-cell">Title</th>
+                <th class="d-none d-md-table-cell">Former</th>
+                <th class="d-none d-md-table-cell">Total Absences</th>
+                <th class="d-none d-md-table-cell"></th>
+            </tr>
+
+@foreach (var m in ViewBag.Modules){
+    <tr>
+        <td>@m.ModuleID</td>
+        <td class="d-none d-md-table-cell">@m.Module.Title</td>
+        <td class="d-none d-md-table-cell">@m.Former.GetFullName()</td>
+        <td class="d-none d-md-table-cell">@m.Module.AbsencesCount </td>
+        <td class="d-none d-md-table-cell">     
+            <button 
+                class="btn btn-primary modal-absences" 
+                id="@m.Module.ID"  
+                data-toggle="modal" 
+                data-target="#myModal"  
+            >Absences
+            </button>
+        </td>
+    </tr>
+}
+
+        </table>
+    </div>
+</div>

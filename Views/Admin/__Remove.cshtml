@@ -1,0 +1,54 @@
+<script>
+
+    $( document ).ready( function() {
+
+        $( ".table-data" ).on('click', ".delete-student", function() {
+
+            var id = $( this ).attr("id");
+
+            $.ajax({
+            type: "POST",
+            url: "@Url.Action("RemoveStudent")",
+            dataType: "text",
+            data : {
+                student_id : id
+            },
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $( ".table-data" ).empty();
+                RefreashStudentTable();
+            },
+            error: function (req, status, error) {
+                showAlert( "danger_alert", "500 Internal server error" );
+            } 
+            });
+        });
+
+        $( ".table-data" ).on('click', ".delete-group", function() {
+
+            var id = $( this ).attr("id");
+
+            $.ajax({
+            type: "POST",
+            url: "@Url.Action("RemoveGroup")",
+            dataType: "text",
+            data : {
+                group_id : id
+            },
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $( ".table-data" ).empty();
+                RefreashGroupTable();
+            },
+            error: function (req, status, error) {
+                showAlert( "danger_alert", "500 Internal server error" );
+            } 
+            });
+        });
+        
+    });
+
+</script>
+
+
+

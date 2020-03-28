@@ -1,0 +1,28 @@
+<script> 
+
+    $(document).ready(function(){
+        $(document).on("click", ".add-context-single",function() {
+            var context_id = $(this).attr("id");
+            var li_id = "#li_before_a_"+ context_id ;
+            var context_label = $( li_id ).text();
+
+            var exist = false;
+            $.each( 
+                $( ".list-contexts-added-units" ), function( key, value ) {
+                    if ( value.id == context_id ){
+                        exist = true;    
+                    }
+            });
+
+            if ( !exist ){
+                $( ".list-contexts-added" ).append("\
+                    <li class='list-contexts-added-units' id='"+ context_id +"'  >\
+                        <i class='fa fa-check' style='color:red;' aria-hidden='true'></i>\
+                        " + context_label + "\
+                    </li>\
+                ");
+            }
+        });
+    });
+
+</script>

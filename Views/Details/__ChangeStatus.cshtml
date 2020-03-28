@@ -1,0 +1,29 @@
+<script>
+    $( document ).ready( function() {
+
+        $( ".table-body" ).on('change', "input[name='tog']", function() {
+            
+            var status = $( this ).val();
+            var absence_id = $( this ).attr( "id" );
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("EditAbsence")",
+                dataType: "text",
+                data : { 
+                    absence_id: absence_id, 
+                    status: status 
+                },
+                success: function (msg) {
+                    data = JSON.parse(msg);
+                    ShowAlert( "success_alert", "Absence chaged succefully" );
+                },
+                error: function (req, status, error) {
+                    ShowAlert( "danger_alert", "500 Internal server error" );
+                } 
+            });
+            
+            $("#myModal").modal('toggle');
+        
+        });
+    });
+</script>

@@ -1,0 +1,134 @@
+<script>
+
+    $( document ).ready( function() {
+
+        $( ".save" ).click( function(){
+
+            var modification_id = $( "#group_id_modif" ).val();
+            var original_id = $( "#group_id_original" ).val();
+            var action_id = $( "#group_action" ).val();
+            $.ajax({
+            type: "POST",
+            url: "@Url.Action("Save")",
+            dataType: "text",
+            data :{ 
+                modification_id : modification_id,  
+                original_id : original_id,
+                action_id : action_id 
+            },
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $( "myModal" ).modal("toggle");
+                $( ".card-table" ).empty();
+                $( ".card-table" ).append('\
+                    <tr>\
+                        <th>#</th>\
+                        <th class="d-none d-md-table-cell">Description</th>\
+                        <th class="d-none d-md-table-cell">Secretary</th>\
+                        <th class="d-none d-md-table-cell">Date</th>\
+                        <th class="d-none d-md-table-cell"></th>\
+                    </tr>\
+                ');
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("LoadGroupsNotifs")",
+                    dataType: "text",
+                    success: function (msg) {
+                        data = JSON.parse(msg);
+                        $.each( data, function( key, value ) {
+                            $( ".card-table" ).append('\
+                            <tr>\
+                                <td class="d-none d-md-table-cell">'+ value["description"] +'</td>\
+                                <td class="d-none d-md-table-cell">'+ value["secretary"]["username"] +'</td>\
+                                <td class="d-none d-md-table-cell">'+ value["dateTime"] +'</td>\
+                                <td class="d-none d-md-table-cell">\
+                                    <button\
+                                        class="btn btn-primary modal-check" \
+                                        id="'+ value["id"] +'"\
+                                        data-toggle="modal"\
+                                        data-target="#myModal"\
+                                    >Check\
+                                    </button>\
+                                </td>\
+                            </tr>\
+                            ');
+                        });
+  
+                    },
+                    error: function (req, status, error) {
+                        ShowAlert( "danger_alert", "500 Internal server error" );
+                    } 
+                });
+            },
+            error: function (req, status, error) {
+                ShowAlert( "danger_alert", "500 Internal server error" );
+            } 
+            });
+        });
+
+        $( ".delete" ).click( function(){
+            var modification_id = $( "#group_id_modif" ).val();
+            var action_id = $( "#group_action" ).val();
+            $.ajax({
+            type: "POST",
+            url: "@Url.Action("Delete")",
+            dataType: "text",
+            data :{ 
+                modification_id : modification_id,  
+                action_id : action_id 
+            },
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $( "myModal" ).modal("toggle");
+                $( ".card-table" ).empty();
+                $( ".card-table" ).append('\
+                    <tr>\
+                        <th>#</th>\
+                        <th class="d-none d-md-table-cell">Description</th>\
+                        <th class="d-none d-md-table-cell">Secretary</th>\
+                        <th class="d-none d-md-table-cell">Date</th>\
+                        <th class="d-none d-md-table-cell"></th>\
+                    </tr>\
+                ');
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("LoadGroupsNotifs")",
+                    dataType: "text",
+                    success: function (msg) {
+                        data = JSON.parse(msg);
+                        $.each( data, function( key, value ) {
+                            $( ".card-table" ).append('\
+                            <tr>\
+                                <td class="d-none d-md-table-cell">'+ value["description"] +'</td>\
+                                <td class="d-none d-md-table-cell">'+ value["secretary"]["username"] +'</td>\
+                                <td class="d-none d-md-table-cell">'+ value["dateTime"] +'</td>\
+                                <td class="d-none d-md-table-cell">\
+                                    <button\
+                                        class="btn btn-primary modal-check" \
+                                        id="'+ value["id"] +'"\
+                                        data-toggle="modal"\
+                                        data-target="#myModal"\
+                                    >Check\
+                                    </button>\
+                                </td>\
+                            </tr>\
+                            ');
+                        });
+  
+                    },
+                    error: function (req, status, error) {
+                        ShowAlert( "danger_alert", "500 Internal server error" );
+                    } 
+                });
+            },
+            error: function (req, status, error) {
+                ShowAlert( "danger_alert", "500 Internal server error" );
+            } 
+            });
+        });
+
+    });
+
+</script>

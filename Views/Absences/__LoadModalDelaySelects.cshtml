@@ -1,0 +1,33 @@
+<script>
+    $(document).ready(function(){
+        
+        $( "#date_input_delay" ).change(function(){
+            var dayID = new Date( $( "#date_input_delay" ).val() ).getDay();
+            var groupID = $( "#groups_select" ).val();
+            $( "#session_input_delay" ).empty();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("LoadSessions")",
+                dataType: "text",
+                data : { 
+                    dayID: dayID,
+                    groupID : groupID,
+                },
+                success: function (msg) {
+                    data = JSON.parse(msg);
+                    $.each(data, function(k, v) {
+                        $( "#session_input_delay" ).append("\
+                        <option value='" + v['id'] + "' >\
+                            "+ v['fromHour'] + ":" + v['fromMinute']  +"\
+                            " + v['toHour']  + ":" + v['toMinute'] +"\
+                        </option>\
+                        ");
+                    });
+                },
+                error: function (req, status, error) {
+                    ShowAlert( "danger_alert", "500 Internal server error" );
+                } 
+            });
+        });
+    });
+</script>

@@ -1,0 +1,99 @@
+
+<script>
+   
+    $(document).ready(function(){
+        $(".modal-absences").click(function(){
+            var module_id = $(this).attr("id");
+            $(".table-body").empty();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("LoadAbsences")",
+                dataType: "text",
+                data : {
+                    module_id : module_id,
+                    student_id : getUrlParameter("SID")
+                },
+                success: function (msg) {
+                    data = JSON.parse(msg);
+                    $.each( data, function( key, value ){
+
+                        var id = key + 1; 
+                        var session = value[ "session" ];
+
+                        var absence_id = value[ "id" ];
+
+                        var from_hour   = session[ "fromHour" ];
+                        var from_minute = session[ "fromMinute" ];
+                        var to_hour     = session[ "toHour" ];
+                        var to_minute   = session[ "toMinute" ];
+                        var ft_string   = from_hour + " : " + from_minute + " => " + to_hour + " : " + to_minute;
+
+                        var date        = new Date( value[ "date" ] ) ;
+                        var year        = date.getFullYear();
+                        var month       = date.getMonth();
+                        var day         = date.getDay();
+
+                        var status      = value[ "status" ];
+                        var former      = session[ "schedule" ][ "former" ][ "username" ];
+
+                        if ( status ){
+                            $( ".table-body" ).append("\
+                                <tr>\
+                                    <td>" + id + "</td>\
+                                    <td class='text-center' >" + ft_string + "</td>\
+                                    <td class='text-center' >" + year + "-" + month + "-" + day + "</td>\
+                                    <td class='text-center' >" + former + "</td>\
+                                    <td>\
+                                        <div class='form-group'>\
+                                            <div class='custom-switches-stacked'>\
+                                                <label class='custom-switch'>\
+                                                    <input type='radio' name='tog' value='True' id='"+ absence_id +"' class='custom-switch-input switch-status' checked>\
+                                                    <span class='custom-switch-indicator'></span>\
+                                                    <span class='custom-switch-description'>Justifié</span>\
+                                                </label>\
+                                                <label class='custom-switch'>\
+                                                    <input type='radio' name='tog' value='False' id='"+ absence_id +"' class='custom-switch-input switch-status'>\
+                                                    <span class='custom-switch-indicator'></span>\
+                                                    <span class='custom-switch-description'>Non Justifié</span>\
+                                                </label>\
+                                            </div>\
+                                        </div>\
+                                    </td>\
+                                </tr>\
+                            ");
+                        }
+                        else {
+                            $( ".table-body" ).append("\
+                                <tr>\
+                                    <td>" + key + "</td>\
+                                    <td class='text-center' >" + ft_string + "</td>\
+                                    <td class='text-center' >" + year + "-" + month + "-" + day + "</td>\
+                                    <td class='text-center' >" + former + "</td>\
+                                    <td>\
+                                        <div class='form-group'>\
+                                            <div class='custom-switches-stacked'>\
+                                                <label class='custom-switch'>\
+                                                    <input type='radio' name='tog' value='True' id='"+ absence_id +"' class='custom-switch-input switch-status' >\
+                                                    <span class='custom-switch-indicator'></span>\
+                                                    <span class='custom-switch-description'>Justifié</span>\
+                                                </label>\
+                                                <label class='custom-switch'>\
+                                                    <input type='radio' name='tog' value='False' id='"+ absence_id +"' class='custom-switch-input switch-status' checked>\
+                                                    <span class='custom-switch-indicator'></span>\
+                                                    <span class='custom-switch-description'>Non Justifié</span>\
+                                                </label>\
+                                            </div>\
+                                        </div>\
+                                    </td>\
+                                </tr>\
+                            ");                            
+                        }
+                    });
+                },
+                error: function (req, status, error) {
+                    ShowAlert( "danger_alert", "500 Internal server error" );
+                } 
+            });
+        });
+    });
+</script>

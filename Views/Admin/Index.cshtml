@@ -1,0 +1,119 @@
+@{
+    ViewData["Title"] = "Admin Page";
+}
+@{
+    <partial name="__Script"></partial>
+    <partial name="__ChangeTable"></partial>
+    <partial name="__LoadAddModalsSelects"></partial>
+    <partial name="__LoadEditModal"></partial>
+    <partial name="__Add"></partial>
+    <partial name="__Remove"></partial>
+    <partial name="__Edit"></partial>
+    <partial name="__Reacharge"></partial>
+}
+@{
+    <partial name="_AddModule"></partial>
+    <partial name="_EditModule"></partial>
+    <partial name="_AddPrecision"></partial>
+    <partial name="_EditPrecision"></partial>
+    <partial name="_AddGroup"></partial>
+    <partial name="_EditGroup"></partial>
+    <partial name="_AddGrade"></partial>
+    <partial name="_EditGrade"></partial>
+    <partial name="_AddDepartement"></partial>
+    <partial name="_EditDepartement"></partial>
+    <partial name="_AddStudent"></partial>
+    <partial name="_EditStudent"></partial>
+    <partial name="_AddModuleAffectation"></partial>
+    <partial name="_EditModuleAffectation"></partial>
+}
+
+<div class="row row-cards row-deck">
+    <div class="col-12">
+        <div class="form-group">
+            <div class="selectgroup w-100">
+                <label class="selectgroup-item">
+                    <input type="radio" name="button_change" value="student" class="selectgroup-input" checked="">
+                    <span class="selectgroup-button">Stagiaires :</span>
+                </label>
+                <!-- MA -->
+                <label class="selectgroup-item">
+                    <input type="radio" name="button_change" value="group" class="selectgroup-input" >
+                    <span class="selectgroup-button">Groupes :</span>
+                </label>    
+            </div>
+            @if ( ViewData["director"].ToString() == "True") {
+            
+            <div class="selectgroup w-100">
+                <label class="selectgroup-item">
+                    <input type="radio" name="button_change" value="departement" class="selectgroup-input">
+                    <span class="selectgroup-button">Secteurs :</span>
+                </label>
+                <label class="selectgroup-item">
+                    <input type="radio" name="button_change" value="formation" class="selectgroup-input">
+                    <span class="selectgroup-button">Formation :</span>
+                </label>
+                <label class="selectgroup-item">
+                    <input type="radio" name="button_change" value="sector" class="selectgroup-input">
+                    <span class="selectgroup-button">Secteurs :</span>
+                </label>    
+            </div>
+            <div class="selectgroup w-100">
+                <label class="selectgroup-item">
+                    <input type="radio" name="button_change" value="module" class="selectgroup-input">
+                    <span class="selectgroup-button">Modules :</span>
+                </label>
+                <label class="selectgroup-item">
+                    <input type="radio" name="button_change" value="precision" class="selectgroup-input">
+                    <span class="selectgroup-button">Precisions :</span>
+                </label>
+                <label class="selectgroup-item">
+                    <input type="radio" name="button_change" value="context" class="selectgroup-input">
+                    <span class="selectgroup-button">Contextes :</span>
+                </label>                
+            </div>
+            <div class="selectgroup w-100">
+                <label class="selectgroup-item">
+                    <input type="radio" name="button_change" value="grade" class="selectgroup-input" >
+                    <span class="selectgroup-button">Niveaux :</span>
+                </label>
+                <label class="selectgroup-item">
+                    <input type="radio" name="button_change" value="ma" class="selectgroup-input" >
+                    <span class="selectgroup-button">Module Affectation :</span>
+                </label>
+            </div>
+
+     
+            }    
+        </div>
+    </div>
+</div>
+
+
+
+<div class="col-sm-6 col-lg-3" id="add_button_field" >
+    <div class="card p-3">
+        <div class="d-flex align-items-center">
+            <!-- Button to Open the Modal -->
+            <button type="button" class="add-new-button btn btn-primary col-12" data-toggle="modal" data-target="#myModal">
+                Ajouter Nouveau
+            </button>
+        </div>
+    </div>
+
+    <div class="card ml-auto">
+        <form class="input-icon my-3 my-lg-0 d-flex align-items-center">
+            <input type="search" class="form-control header-search" placeholder="Search&hellip;" tabindex="1">
+            <div class="input-icon-addon"><i class="fe fe-search"></i></div>
+        </form>
+    </div>
+
+</div>
+
+
+<div class="col-12">
+    <div class="card">
+        <table class="table card-table table-vcenter table-data">
+        </table>
+    </div>
+</div>

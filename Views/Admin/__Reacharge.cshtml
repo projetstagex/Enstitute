@@ -1,0 +1,48 @@
+<script>
+
+    $( document ).ready( function() {
+
+        $( ".header-search" ).keyup( function() {
+
+            var id = $( this ).attr( "id" );
+            var value = $( this ).val();
+
+            $( ".table-data" ).empty();
+
+            if ( id == "student_search" ) {
+                RefreashStudentTable(value);
+            }
+            else if ( id == "module_search" ) {
+                RefreashModuleTable(value);
+            }
+            else if ( id == "precision_search" ) {
+                RefreashPrecisionTable(value);
+            }
+            else if ( id == "context_search" ) {
+                RefreashContextTable(value);
+            }
+            else if ( id == "sector_search" ) {
+                RefreashSectorTable(value);
+            }
+            else if ( id == "group_search" ) {
+                RefreashGroupTable(value);
+            }
+            else if ( id == "grade_search" ) {
+                RefreashGradeTable(value);
+            }
+            else if ( id == "departement_search" ) {
+                RefreashDepartementTable(value);
+            }
+            else if ( id == "formation_search" ) {
+                RefreashFormationeTable(value);
+            }
+            else if ( id == "ma_search" ) {
+                RefreashModuleAffectationTable(value);
+            }
+
+        });
+
+    });
+
+</script> 
+

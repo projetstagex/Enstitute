@@ -1,0 +1,75 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+
+    $("#success_alert").hide();
+    $("#warning_alert").hide();
+    $("#danger_alert").hide();
+    
+    $(window).bind('beforeunload',function(){
+        sessionStorage.clear();
+        return 'Refreching';
+    });
+
+    $( ".search-form" ).submit(function(e){
+        e.preventDefault();
+    });
+
+    $( ".header-search" ).keydown(function(){
+        var value = $( ".header-search" ).val();
+        
+    });
+
+
+    $( ".logout" ).click( function() {
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SignOut")",
+            dataType: "text",
+            success: function (msg) {
+                data = JSON.parse(msg); //Response class
+				window.location.href = "../";
+            },
+            error: function (req, status, error) {
+                ShowAlert( "danger_alert", "500 internal server error" );
+            } 
+        });
+    });
+
+});
+function closeSnoAlertBox(id){
+    window.setTimeout(function () {
+        $("#"+id).fadeOut(300)
+        },
+    3000);
+} 
+function htmlspecialchars(str) {
+    return str.replace(/&/g, '&amp;').replace(/>/g, '&gt;').replace(/</g, '&lt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+}
+function ShowAlert( alert_id, message ){
+    $("#"+alert_id).show();
+    $("#"+alert_id).html(message);
+    $("#"+alert_id).fadeIn();
+    closeSnoAlertBox(alert_id);
+}
+function IsValidPhoneNumber(phoneNumber){
+   return true;
+}
+function isValidEmailAddress(emailAddress) {
+   return true;
+}
+
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+};
+</script>

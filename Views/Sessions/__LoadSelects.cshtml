@@ -1,0 +1,114 @@
+<script>
+    $(document).ready(function(){
+        var is_former = @ViewBag.IsFormer;
+        if ( is_former == false){
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("LoadFormers")",
+                dataType: "text",
+                success: function (brut_data) {
+                    data = JSON.parse(brut_data);
+                    $.each(data, function(k, v){
+                        $( "#list_formateurs" ).append("<option value='"+ v['id'] +"'>"+ v['firstName'] + v['lastName'] +"</option>");
+                    });
+                },
+                error: function (req, status, error) { 
+                    ShowAlert( "danger_alert", error );
+                } 
+            }); 
+        }
+        else {
+            var former_id = "@ViewBag.ID";
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("LoadSessions")",
+                dataType: "text",
+                data: { formerID :  former_id},
+                async: false,
+                success: function (brut_data) {
+                    data = JSON.parse(brut_data);
+                    $.each(data, function(k, v){
+                        var id = "#day_"+v["dayID"].toString();
+                        var from_hour = v['fromHour'] < 10 ? "0"+v['fromHour'].toString() : v['fromHour'].toString();
+                        var from_minute = v['fromMinute'] < 10 ? "0"+v['fromMinute'].toString() : v['fromMinute'].toString();
+                        var to_hour = v['toHour'] < 10 ? "0"+v['toHour'].toString() : v['toHour'].toString();
+                        var to_minute = v['toMinute'] < 10 ? "0"+v['toMinute'].toString() : v['toMinute'].toString();
+                        var start = from_hour + ":" + from_minute;
+                        var end = to_hour + ":" + to_minute;
+
+                        $( id ).html("\
+                            <li class='cd-schedule__event'>\
+                                <a \
+                                    class = 'event-disp'\
+                                    id = '" + v['id'] + "'\
+                                    data-day = '" + v['day']['label'] + "'\
+                                    data-start='" + start + "'\
+                                    data-end='" + end + "'\
+                                    data-content='" + v['group']['label'] + "'\
+                                    data-event='event-"+ v['group']['sector']['grade']['id'] +"'\
+                                >\
+                                    <em class='cd-schedule__name'>"+ v['group']['label'] +"</em>\
+                                </a>\
+                            </li>\
+                        ");
+                    });
+                },
+                error: function (req, status, error) { 
+                    ShowAlert( "danger_alert", "500 internal server error" );
+                } 
+            }); 
+        }
+
+        $(".add_button").click(function(){
+            $( "#select_day_session" ).empty();
+            $( "#select_module" ).empty();
+            $( "#select_group" ).empty();
+            $( ".validator" ).html("");
+            var former_id = "@ViewBag.ID";
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("LoadDays")",
+                dataType: "text",
+                success: function (brut_data) {
+                    data = JSON.parse(brut_data);
+                    $.each(data, function(k, v){
+                         $( "#select_day_session" ).append("<option value='"+ v['id'] +"'>"+ v['label'] +"</option>");
+                    });
+                },
+                error: function (req, status, error) { 
+                    ShowAlert( "danger_alert",  "500 internal server error" );
+                } 
+            }); 
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("LoadModulesAdd")",
+                dataType: "text",
+                data : {formerID: former_id},
+                success: function (brut_data) {
+                    data = JSON.parse(brut_data);
+                    $.each(data, function(k, v){
+                         $( "#select_module" ).append("<option value='"+ v['id'] +"'>"+ v['title'] + "</option>");
+                    });
+                },
+                error: function (req, status, error) { 
+                    ShowAlert( "danger_alert",  "500 internal server error" );
+                } 
+            }); 
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("LoadGroups")",
+                dataType: "text",
+                data : {formerID: former_id},
+                success: function (brut_data) {
+                    data = JSON.parse(brut_data);
+                    $.each(data, function(k, v){
+                         $( "#select_group" ).append("<option value='"+ v['id'] +"'>"+ v['label'] + "</option>");
+                    });
+                },
+                error: function (req, status, error) { 
+                    ShowAlert( "danger_alert",  "500 internal server error" );
+                } 
+            }); 
+        }); 
+    });
+</script>

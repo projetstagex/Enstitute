@@ -1,0 +1,86 @@
+<script> 
+
+    $( document ).ready( function() {
+
+        $( ".btn-edit" ).click( function() {
+
+            var id = $(this).attr("id");
+
+            if ( id == "group" ){
+
+                var id = $( "#group_id_edit" ).val();
+                var label = $( "#group_label_edit" ).val();
+                var code = $( "#group_code_edit" ).val();
+
+                if ( code == "" || label == "" ){}
+                else {
+                    $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("EditGroup")",
+                    dataType: "text",
+                    data : {id : id,code: code, label : label},
+                    success: function (msg) {
+                        data = JSON.parse(msg);
+                        if ( data["code"] == 1 ){}
+                        else if ( data["code"] == 0 ){
+                            $("#EditGroup").modal('toggle');
+                            $( ".table-data" ).empty();
+                            RefreashGroupTable();
+                            ShowAlert( "success_alert", "Group Edited succesfully" );
+                        }
+                    },
+                    error: function (req, status, error) {
+                        ShowAlert( "danger_alert", "500 Internal server error" );
+                    } 
+                    });
+                }
+            }
+
+            else if ( id == "student" ){
+
+                var id = $( "#student_id_edit" ).val();
+                var firstname = $( "#student_firstname_edit" ).val();
+                var lastname = $( "#student_lastname_edit" ).val();
+                var email = $( "#student_email_edit" ).val();
+                var phone = $( "#student_phone_edit" ).val();
+                var nationality = $( "#student_nationality_edit" ).val();
+                var group_label = $( "#student_group_edit" ).val();
+
+                if ( firstname == "" || lastname == "" || email == "" || nationality == "" || phone == "" ){}
+                else {
+                    $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("EditStudent")",
+                    dataType: "text",
+                    data : {
+                        student_id : id,
+                        firstname: firstname, 
+                        lastname : lastname,
+                        email : email,
+                        phone : phone,
+                        nationality : nationality,
+                        group_label : group_label,
+                    },
+                    success: function (msg) {
+                        data = JSON.parse(msg);
+                        if ( data["code"] == 1 ){}
+                        else if ( data["code"] == 0 ){
+                            $("#EditStudent").modal('toggle');
+                            $( ".table-data" ).empty();
+                            RefreashStudentTable();
+                            ShowAlert( "success_alert", "Student Edited succesfully" );
+                        }
+                    },
+                    error: function (req, status, error) {
+                        ShowAlert( "danger_alert", "500 Internal server error" );
+                    } 
+                    });
+                }
+            }
+
+        
+        });
+
+    });
+
+</script>

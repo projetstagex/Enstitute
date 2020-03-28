@@ -1,0 +1,23 @@
+@{
+    ViewData["Title"] = "Students";
+}
+
+<div class="row">
+    <div class="col-lg-4">
+        @{
+            <partial name="_ProfileCardField"></partial>
+            <partial name="_Stats1Field"></partial>
+        }
+    </div>
+    @{
+        <partial name="_TableFieldDetails"></partial>
+        <partial name="_Modal" ></partial>
+        <partial name="_EmailModal" ></partial>
+    }
+</div>
+
+@{
+    <partial name="__LoadAbsences" ></partial>
+    <partial name="__AbsencesPirChart"></partial>
+    <partial name="__ChangeStatus"></partial>
+}

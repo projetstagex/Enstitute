@@ -1,0 +1,37 @@
+<script>
+
+    $(document).ready( function() {
+
+        $( ".modules_affectations" ).empty();
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadModulesAffectations")",
+            dataType: "text",
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $.each( data, function ( key, value ) {
+                
+                $(".modules_affectations").append( '\
+                    <option value="'+ value["id"] +'" >' +
+                        " => " + value["former"]["firstName"] +
+                        " "    + value["former"]["lastName"] + 
+                        " => " + value["group"]["label"] +
+                        " => " + value["module"]["title"] +
+                    '</option>' 
+                );
+
+                });
+            },
+            error: function (req, status, error) {
+                ShowAlert( "danger_alert", "500 Internal server error" );
+            } 
+        });
+
+
+
+
+    });
+
+
+</script> 

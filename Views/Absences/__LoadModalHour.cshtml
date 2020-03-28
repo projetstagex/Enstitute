@@ -1,0 +1,108 @@
+<script>
+
+    $(document).ready( function() {
+
+        $(".add-delay").click( function() {
+            var id = $(this).attr("id");
+            if ( id == "hour" ){
+                
+                $( "#select_former_delay_hour" ).empty();
+                $( "#select_day_delay_hour" ).empty();
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("LoadDays")",
+                    dataType: "text",
+                    success: function (msg) {
+                        data = JSON.parse(msg);
+                        $.each(data, function(k, v) {
+                            $( "#select_day_delay_hour" ).append("\
+                            <option value='" + v['id'] + "' >\
+                                "+ v['label'] +"\
+                            </option>\
+                            ");
+                        });
+                    },
+                    error: function (req, status, error) {
+                        ShowAlert( "danger_alert", "500 Internal server error" );
+                    } 
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("LoadFormers")",
+                    dataType: "text",
+                    success: function (msg) {
+                        data = JSON.parse(msg);
+                        
+                        $.each(data, function(k, v) {
+                            $( "#select_former_delay_hour" ).append("\
+                            <option value='" + v['id'] + "' >\
+                                "+ v['firstName'] + " " + v['lastName'] +"\
+                            </option>\
+                            ");
+                        });
+                    },
+                    error: function (req, status, error) {
+                        ShowAlert( "danger_alert", "500 Internal server error" );
+                    } 
+                });
+
+            }
+
+        });
+        $( ".add-absence" ).click( function() {
+            
+            var id = $(this).attr("id");
+
+            if ( id == "hour" ){
+
+                $( "#select_day_absence_hour" ).empty();
+                $( "#select_former_absence_hour" ).empty();
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("LoadDays")",
+                    dataType: "text",
+                    success: function (msg) {
+                        data = JSON.parse(msg);
+                        $.each(data, function(k, v) {
+                            $( "#select_day_absence_hour" ).append("\
+                            <option value='" + v['id'] + "' >\
+                                "+ v['label'] +"\
+                            </option>\
+                            ");
+                        });
+                    },
+                    error: function (req, status, error) {
+                        ShowAlert( "danger_alert", "500 Internal server error" );
+                    } 
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("LoadFormers")",
+                    dataType: "text",
+                    success: function (msg) {
+                        data = JSON.parse(msg);
+                        
+                        $.each(data, function(k, v) {
+                            $( "#select_former_absence_hour" ).append("\
+                            <option value='" + v['id'] + "' >\
+                                "+ v['firstName'] + " " + v['lastName'] +"\
+                            </option>\
+                            ");
+                        });
+                    },
+                    error: function (req, status, error) {
+                        ShowAlert( "danger_alert", "500 Internal server error" );
+                    } 
+                });
+
+            }
+
+        });
+
+    });
+
+</script>

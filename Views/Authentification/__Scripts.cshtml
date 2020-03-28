@@ -1,0 +1,57 @@
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<script>
+function htmlspecialchars(str) {
+    return str.replace('&', '&amp;').replace('"', '&quot;').replace("'", '&#039;').replace('<', '&lt;').replace('>', '&gt;');
+}
+</script>
+
+
+<script>
+$(document).ready(function(){
+	$( ".submit" ).click(function(){
+		$( ".form-validator" ).html( "" );
+		var username = htmlspecialchars( $( ".username" ).val() ) ; 
+		var password = htmlspecialchars( $( ".password" ).val() ) ; 
+
+		if ( username == "" || password == "" )
+		{
+			$( ".form-validator" ).html( "<strong>Fill all </strong> required fields " );
+		}
+		else {
+			credentials = false;
+			$.ajax({
+				url : "@Url.Action("ValidateCredentials")",
+				type: "POST",
+				dataType: "text",
+				async: false,
+				data: { username: username, password: password },
+				success: function (msg) {
+		            data = JSON.parse(msg);
+					if ( data['code']  == 0 ) 
+					{
+						credentials = true;
+					}
+					else 
+					{
+						$( ".form-validator" ).html( "<strong>Incorrect </strong> Username / Password " );
+						$( ".password" ).addClass("is-invalid");
+					}
+			    },
+			});
+			if (credentials == true ) {
+				$.ajax({
+					url : "@Url.Action("Authenticate")",
+					type: "POST",
+					dataType: "text",
+					data: { username: username, password: password },
+					success: function (msg) 
+					{
+						window.location.href = "../";
+					},
+				});
+			}
+		}
+	});
+});
+</script>

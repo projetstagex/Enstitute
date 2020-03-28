@@ -1,0 +1,94 @@
+<script>
+    $(document).ready(function(){
+        $( ".add-save-delay" ).click(function(){
+            var date = new Date( $('#date_input_delay').val() );
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
+            var duration = $( "#duration_input_delay" ).val();
+            var sessionID = $( "#session_input_delay" ).val() ;
+            $.each( 
+                $('input[type="checkbox"]'), function(k, v) {
+                    if ( v.checked ) {
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("AddDelay")",
+                            dataType: "text",
+                            data : {
+                                studentIN : v.value,
+                                sessionID : sessionID,
+                                year : year, 
+                                month : month, 
+                                day : day,
+                                duration : duration,
+                            },
+                            success: function (msg) {
+                                data = JSON.parse(msg); //Response class
+                                ShowAlert( "success_alert", "Delay Added Succefully" );
+                            },
+                            error: function (req, status, error) {
+                                $("#myModal").modal('toggle');
+                                ShowAlert( "danger_alert", "500 internal server error" );
+                            } 
+                        });
+                    } 
+                }
+            )  
+            $("#myModalDelay").modal('toggle');
+        });
+
+
+        $( ".add-save-delay-hour" ).click(function(){
+            var date = new Date( $( '#date_input_delay_hour' ).val() );
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
+
+            var duration = $( "#duration_input_delay_hour" ).val();
+            
+            var from =  parseFloat( $( "#select_from_delay_hour" ).val() );
+            var to = parseFloat( $( "#select_to_delay_hour" ).val() );
+            var from_hour = parseInt( from );
+            var from_minute = parseInt( ( from - from_hour ) * 60 );
+            var to_hour = parseInt( to );
+            var to_minute = parseInt( ( to - to_hour ) * 60 ) ; 
+
+            var group_id = $( "#groups_select" ).val();
+            var former_id = $( "#select_former_delay_hour" ).val();
+            var day_id = $( "#select_day_delay_hour" ).val();
+            var time_part = $( "#select_timepart_delay_hour" ).val();
+
+            $.each( 
+                $('input[type="checkbox"]'), function(k, v) {
+                    if ( v.checked ) {
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("AddDelayHour")",
+                            dataType: "text",
+                            data : {
+                                studentIN : v.value,
+                                year : year, 
+                                month : month, 
+                                day : day,
+                                duration : duration,
+                                fh : from_hour,
+                                fm : from_minute,
+                                th : to_hour,
+                                tm : to_minute,
+                            },
+                            success: function (msg) {
+                                data = JSON.parse(msg); //Response class
+                                ShowAlert( "success_alert", "Delay Added Succefully" );
+                            },
+                            error: function (req, status, error) {
+                                $("#myModal").modal('toggle');
+                                ShowAlert( "danger_alert", "500 internal server error" );
+                            } 
+                        });
+                    } 
+                }
+            )  
+            $("#myModalDelay").modal('toggle');
+        });
+    });
+</script>

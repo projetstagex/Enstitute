@@ -1,0 +1,37 @@
+
+<!-- Modal -->
+<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="Ajouter Absence" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <!-- model header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">
+                    Ajouter Groupe :
+                </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button> 
+            </div>
+            <!-- model body -->
+            <div class="modal-body">
+                <div class="card">
+                    <div class="row" style="margin-left:10px; margin-right:10px;">
+                        <div class="form-group">
+                            <label class="form-label">Date</label>
+                            <div class="col-10">
+                                <input class="form-control" type="date" value="2020-01-01" id="date_input_absence">
+                            </div>
+                        </div>
+                         <div class="form-group ">
+                            <label class="form-label">Seance :</label>
+                            <select id="session_input_absence" class="form-control custom-select"></select>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- model footer -->
+            <div class="modal-footer">
+            <button type="button" class="btn btn-primary add-save" >Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

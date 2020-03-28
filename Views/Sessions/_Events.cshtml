@@ -1,0 +1,11 @@
+        <div class="cd-schedule__events">
+			<ul>
+                @foreach (var item in ViewBag.Days)
+                {
+                    <li class="cd-schedule__group">
+					    <div class="cd-schedule__top-info day_a "><span>@item.Label</span></div>
+                        <ul  id="day_@item.ID" ></ul>
+				    </li>
+                }
+			</ul>
+		</div>

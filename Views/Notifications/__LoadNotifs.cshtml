@@ -1,0 +1,62 @@
+<script> 
+
+    $( document ).ready( function() {
+        
+        $( ".card-table" ).append('\
+            <tr>\
+                <th>#</th>\
+                <th class="d-none d-md-table-cell">Description</th>\
+                <th class="d-none d-md-table-cell">Secretary</th>\
+                <th class="d-none d-md-table-cell">Date</th>\
+                <th class="d-none d-md-table-cell"></th>\
+            </tr>\
+        ');
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadGroupsNotifs")",
+            dataType: "text",
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $.each( data, function( key, value ) {
+                    $( ".card-table" ).append('\
+                    <tr>\
+                        <td class="d-none d-md-table-cell">'+ value["description"] +'</td>\
+                        <td class="d-none d-md-table-cell">'+ value["secretary"]["username"] +'</td>\
+                        <td class="d-none d-md-table-cell">'+ value["dateTime"] +'</td>\
+                        <td class="d-none d-md-table-cell">\
+                            <button\
+                                class="btn btn-primary modal-check" \
+                                id="'+ value["id"] +'"\
+                                data-toggle="modal"\
+                                data-target="#myModal"\
+                            >Check\
+                            </button>\
+                        </td>\
+                    </tr>\
+                    ');
+                });
+  
+            },
+            error: function (req, status, error) {
+                ShowAlert( "danger_alert", "500 Internal server error" );
+            } 
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadStudentsNotifs")",
+            dataType: "text",
+            success: function (msg) {
+                data = JSON.parse(msg);
+                console.log( data );
+            },
+            error: function (req, status, error) {
+                ShowAlert( "danger_alert", "500 Internal server error" );
+            } 
+        });
+
+    });
+
+</script>

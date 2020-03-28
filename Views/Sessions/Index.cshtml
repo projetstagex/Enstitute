@@ -1,0 +1,59 @@
+@{
+	ViewData["Title"] = "Seances";
+}
+
+<script>document.getElementsByTagName("html")[0].className += " js";</script>
+<link rel="stylesheet" href="assets_sch/css/style.css">
+
+<div class="col-sm-6 col-lg-3" id="add_button_field" >
+	<div class="card p-3">
+	@{
+		if ( ViewBag.IsFormer == "false" ) {
+			<div class="form-label">formateur :</div>
+			<select class="custom-select form-control" id="list_formateurs" ></select>
+		}
+		else {
+			<div class="d-flex align-items-center">
+				<button type="button"  class="add_button btn btn-primary col-12" data-toggle="modal" data-target="#myModal">
+					Ajouter Nouvelle Seance
+				</button>	
+			</div>
+			
+		}
+	}
+	</div>
+</div>
+
+
+
+
+
+<div class="row row-cards row-deck">
+	<div class="col-12">
+		<div class="card">
+			<div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
+				@{
+					<partial name="_TimeLine" ></partial>
+					<partial name="_Events" ></partial>
+					<partial name="_TableModel" ></partial>
+				}
+			</div> <!-- .cd-schedule -->
+		</div>
+	</div>
+</div>
+@{
+	<partial name="_AddModal" ></partial>
+	<partial name="_ContextModal" ></partial>
+}
+@{
+	<partial name="__LoadSelects" ></partial>
+	<partial name="__AddSession" ></partial>
+	<partial name="__ChangeSchedule" ></partial>
+	<partial name="__LoadContextModal" ></partial>
+	<partial name="__AddSessionContextLocal" ></partial>
+	<partial name="__AddSessionContextDB" ></partial>
+}
+
+
+<script src="~/assets_sch/js/util.js"></script> <!-- util functions included in the CodyHouse framework -->
+<script src="~/assets_sch/js/main.js"></script>

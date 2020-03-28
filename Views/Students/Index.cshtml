@@ -1,0 +1,18 @@
+@{
+    ViewData["Title"] = "Students";
+    ViewData["PageTitle"] = "Consulter Stagiaires";
+
+}
+
+<div class="row row-cards">
+    @{
+        <partial name="_SideField"></partial>
+        <partial name="_TableField"></partial>
+    }
+</div>
+
+@{
+    <partial name="__LoadSelects"></partial>
+    <partial name="__SearchStudents"></partial>
+}
+

@@ -1,0 +1,67 @@
+<!-- Modal -->
+<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="Ajouter Context" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <!-- model header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">
+                    Ajouter Context :
+                </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button> 
+            </div>
+            <!-- model body -->
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="card">
+                            <div class="card-title" >
+                                Originale
+                            </div>
+                            <div class="card-body original-side">
+                                <input type="hidden" class="form-control" id="group_id_original" disabled>
+                                <input type="hidden" class="form-control" id="group_action" disabled>
+                                <div class="form-group">
+                                    <label class="form-label">Label :</label>
+                                    <input type="text" class="form-control" id="group_label_original" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Code :</label>
+                                    <input type="text" class="form-control" id="group_code_original" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card">
+                            <div class="card-title" >
+                                Modification
+                            </div>
+                            <div class="card-body modified-side">
+                                <input type="hidden" class="form-control" id="group_id_modif" disabled>
+                                <div class="form-group">
+                                    <label class="form-label">Label :</label>
+                                    <input type="text" class="form-control" id="group_label_modif" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Code :</label>
+                                    <input type="text" class="form-control" id="group_code_modif" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- model footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary save" >Save changes</button>
+                <button type="button" class="btn btn-danger delete" >delete changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

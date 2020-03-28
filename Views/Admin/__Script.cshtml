@@ -1,0 +1,380 @@
+<script>
+
+    function RefreashModuleTable(input) {
+        $( ".table-data" ).append("\
+            <tr>\
+                <th>#</th>\
+                <th class='d-none d-md-table-cell'>Titre </th>\
+                <th class='d-none d-md-table-cell'>Code </th>\
+                <th class='d-none d-md-table-cell'>Coefficient </th>\
+                <th class='d-none d-md-table-cell'></th>\
+                <th class='d-none d-md-table-cell'></th>\
+            </tr>\
+        ");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadModules")",
+            data : { input: input },
+            dataType: "text",
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $.each( data, function( key, value ) {
+                    $( ".table-data" ).append("\
+                        <tr>\
+                            <td> "+ value['id'] +" </td><td> "+ value['title'] +" </td><td> "+ value['code'] +" </td><td> "+ value['multiplier'] +" </td>\
+                            <td>\
+                                <button class='btn btn-purple edit-module' id='"+ value['id'] +"' type='button' data-toggle='modal' data-target='#EditModule'>\
+                                    <i class='fe fe-edit'></i>\
+                                </button>\
+                            </td>\
+                            <td>\
+                                <button class='btn btn-red delete-module' id='"+ value['id'] +"' type='button'>\
+                                    <i class='fe fe-trash'></i>\
+                                </button>\
+                            </td>\
+                        </tr>\
+                    ");
+                }); 
+            },
+            error: function (req, status, error) {
+                showAlert( "danger_alert", "500 Internal server error" );
+            } 
+        });
+    }
+
+    function RefreashPrecisionTable(input) {
+        $( ".table-data" ).append("\
+            <tr>\
+                <th>#</th>\
+                <th class='d-none d-md-table-cell'>Label </th>\
+                <th class='d-none d-md-table-cell'>Code </th>\
+                <th class='d-none d-md-table-cell'>Module </th>\
+                <th class='d-none d-md-table-cell'></th>\
+                <th class='d-none d-md-table-cell'></th>\
+            </tr>\
+        ");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadPrecisions")",
+            data : { input: input },
+            dataType: "text",
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $.each( data, function( key, value ) {
+                    $( ".table-data" ).append("\
+                        <tr>\
+                            <td> "+ value['id'] +" </td>\
+                            <td> "+ value['label'] +" </td>\
+                            <td> "+ value['code'] +" </td>\
+                            <td> "+ value['module']['code'] +" </td>\
+                            <td>\
+                                <button class='btn btn-purple edit-precision' id='"+ value['id'] +"' type='button' data-toggle='modal' data-target='#EditPrecision'>\
+                                    <i class='fe fe-edit'></i>\
+                                </button>\
+                            </td>\
+                            <td>\
+                                <button class='btn btn-red delete-precision' id='"+ value['id'] +"' type='button'>\
+                                    <i class='fe fe-trash'></i>\
+                                </button>\
+                            </td>\
+                        </tr>\
+                    ");
+                }); 
+            },
+            error: function (req, status, error) {showAlert( "danger_alert", "500 Internal server error" );} 
+        });
+    }
+
+    function RefreashStudentTable(input) {
+        $( ".table-data" ).append("\
+            <tr>\
+                <th>#</th>\
+                <th class='d-none d-md-table-cell'>FullName </th>\
+                <th class='d-none d-md-table-cell'>Group </th>\
+                <th class='d-none d-md-table-cell'>Nationality </th>\
+                <th class='d-none d-md-table-cell'></th>\
+                <th class='d-none d-md-table-cell'></th>\
+            </tr>\
+        ");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadStudents")",
+            data : { input: input },
+            dataType: "text",
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $.each( data, function( key, value ) {
+                    $( ".table-data" ).append("\
+                        <tr>\
+                            <td> "+ value['id'] +" </td>\
+                            <td> "+ value['firstName'] + value['lastName'] + " </td>\
+                            <td> "+ value['group']['label'] +" </td>\
+                            <td> "+ value['nationality'] +" </td>\
+                            <td>\
+                                <button class='btn btn-purple edit-student' id='"+ value['id'] +"' type='button' data-toggle='modal' data-target='#EditStudent'>\
+                                    <i class='fe fe-edit'></i>\
+                                </button>\
+                            </td>\
+                            <td>\
+                                <button class='btn btn-red delete-student' id='"+ value['id'] +"' type='button'>\
+                                    <i class='fe fe-trash'></i>\
+                                </button>\
+                            </td>\
+                        </tr>\
+                    ");
+                }); 
+            },
+            error: function (req, status, error) {showAlert( "danger_alert", "500 Internal server error" );} 
+        });
+    }
+
+    function RefreashGroupTable(input) {
+        $( ".table-data" ).append("\
+            <tr>\
+                <th>#</th>\
+                <th class='d-none d-md-table-cell'>Label </th>\
+                <th class='d-none d-md-table-cell'>Code </th>\
+                <th class='d-none d-md-table-cell'>Sector </th>\
+                <th class='d-none d-md-table-cell'></th>\
+                <th class='d-none d-md-table-cell'></th>\
+            </tr>\
+        ");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadGroups")",
+            data : { input: input },
+            dataType: "text",
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $.each( data, function( key, value ) {
+                    $( ".table-data" ).append("\
+                        <tr>\
+                            <td> "+ value['id'] +" </td>\
+                            <td> "+ value['label'] +" </td>\
+                            <td> "+ value['code'] +" </td>\
+                            <td> "+ value['sector']['code'] +" </td>\
+                            <td><button class='btn btn-purple edit-group' id='"+ value['id'] +"' type='button' data-toggle='modal' data-target='#EditGroup'><i class='fe fe-edit'></i></button></td>\
+                            <td><button class='btn btn-red delete-group' id='"+ value['id'] +"' type='button'><i class='fe fe-trash'></i></button></td>\
+                        </tr>");
+                }); 
+            },
+            error: function (req, status, error) {showAlert( "danger_alert", "500 Internal server error" );} 
+        });
+    }
+
+    function RefreashContextTable(input) {
+        $( ".table-data" ).append("\
+            <tr>\
+                <th>#</th>\
+                <th class='d-none d-md-table-cell'>Label </th>\
+                <th class='d-none d-md-table-cell'>Code </th>\
+                <th class='d-none d-md-table-cell'>Precision </th>\
+                <th class='d-none d-md-table-cell'>Module</th>\
+                <th class='d-none d-md-table-cell'></th>\
+                <th class='d-none d-md-table-cell'></th>\
+            </tr>\
+        ");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadContexts")",
+            data : { input: input },
+            dataType: "text",
+            success: function (msg) {
+                data = JSON.parse(msg);
+
+                $.each( data, function( key, value ) {
+                    $( ".table-data" ).append("\
+                        <tr>\
+                            <td> "+ value['id'] +" </td>\
+                            <td> "+ value['label'] +" </td>\
+                            <td> "+ value['code'] +" </td>\
+                            <td> "+ value['precision']['code'] +" </td>\
+                            <td> "+ value['precision']['module']['code'] +" </td>\
+                            <td><button class='btn btn-purple edit-context' id='"+ value['id'] +"' type='button' data-toggle='modal' data-target='#EditContext'><i class='fe fe-edit'></i></button></td>\
+                            <td><button class='btn btn-red delete-context' id='"+ value['id'] +"' type='button'><i class='fe fe-trash'></i></button></td>\
+                        </tr>");
+                }); 
+            },
+            error: function (req, status, error) {showAlert( "danger_alert", "500 Internal server error" );} 
+        });
+    }
+
+    function RefreashFormationTable(input) {
+
+        $( ".table-data" ).append("\
+            <tr>\
+                <th>#</th>\
+                <th class='d-none d-md-table-cell'>Label </th>\
+                <th class='d-none d-md-table-cell'>Code </th>\
+                <th class='d-none d-md-table-cell'>TotalYears </th>\
+                <th class='d-none d-md-table-cell'>Depatement </th>\
+                <th class='d-none d-md-table-cell'></th>\
+                <th class='d-none d-md-table-cell'></th>\
+            </tr>\
+        ");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadSectors")",
+            data : { input: input },
+            dataType: "text",
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $.each( data, function( key, value ) {
+                    $( ".table-data" ).append("\
+                        <tr>\
+                            <td> "+ value['id'] +" </td>\
+                            <td> "+ value['label'] +" </td>\
+                            <td> "+ value['totalYears'] +" </td>\
+                            <td> "+ value['departement']['code'] +" </td>\
+                            <td>\
+                                <button class='btn btn-purple edit-departement' id='"+ value['id'] +"' type='button' data-toggle='modal' data-target='#EditDepartement'>\
+                                    <i class='fe fe-edit'></i>\
+                                </button>\
+                            </td>\
+                            <td>\
+                                <button class='btn btn-red delete-departement' id='"+ value['id'] +"' type='button'>\
+                                    <i class='fe fe-trash'></i>\
+                                </button>\
+                            </td>\
+                        </tr>\
+                    ");
+                }); 
+            },
+            error: function (req, status, error) {showAlert( "danger_alert", "500 Internal server error" );} 
+        });
+    }
+
+    function RefreashGradeTable(input) {
+        $( ".table-data" ).append("\
+            <tr>\
+                <th>#</th>\
+                <th class='d-none d-md-table-cell'>Label </th>\
+                <th class='d-none d-md-table-cell'>Code </th>\
+                <th class='d-none d-md-table-cell'></th>\
+                <th class='d-none d-md-table-cell'></th>\
+            </tr>\
+        ");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadGrades")",
+            data : { input: input },
+            dataType: "text",
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $.each( data, function( key, value ) {
+                    $( ".table-data" ).append("\
+                        <tr>\
+                            <td> "+ value['id'] +" </td>\
+                            <td> "+ value['label'] +" </td>\
+                            <td> "+ value['code'] +" </td>\
+                            <td>\
+                                <button class='btn btn-purple edit-grade' id='"+ value['id'] +"' type='button' data-toggle='modal' data-target='#EditGrade'>\
+                                    <i class='fe fe-edit'></i>\
+                                </button>\
+                            </td>\
+                            <td>\
+                                <button class='btn btn-red delete-grade' id='"+ value['id'] +"' type='button'>\
+                                    <i class='fe fe-trash'></i>\
+                                </button>\
+                            </td>\
+                        </tr>\
+                    ");
+                }); 
+            },
+            error: function (req, status, error) {showAlert( "danger_alert", "500 Internal server error" );} 
+        });
+    }
+
+    function RefreashSectorTable(input) {
+        $( ".table-data" ).append("\
+            <tr>\
+                <th>#</th>\
+                <th class='d-none d-md-table-cell'>Label </th>\
+                <th class='d-none d-md-table-cell'>Code </th>\
+                <th class='d-none d-md-table-cell'>Formation </th>\
+                <th class='d-none d-md-table-cell'>Grade </th>\
+                <th class='d-none d-md-table-cell'></th>\
+                <th class='d-none d-md-table-cell'></th>\
+            </tr>\
+        ");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadSectors")",
+            data : { input: input },
+            dataType: "text",
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $.each( data, function( key, value ) {
+                    $( ".table-data" ).append("\
+                        <tr>\
+                            <td> "+ value['id'] +" </td>\
+                            <td> "+ value['label'] +" </td>\
+                            <td> "+ value['formation']['code'] +" </td>\
+                            <td> "+ value['grade']['code'] +" </td>\
+                            <td>\
+                                <button class='btn btn-purple edit-sector' id='"+ value['id'] +"' type='button' data-toggle='modal' data-target='#EditSector'>\
+                                    <i class='fe fe-edit'></i>\
+                                </button>\
+                            </td>\
+                            <td>\
+                                <button class='btn btn-red delete-sector' id='"+ value['id'] +"' type='button'>\
+                                    <i class='fe fe-trash'></i>\
+                                </button>\
+                            </td>\
+                        </tr>\
+                    ");
+                }); 
+            },
+            error: function (req, status, error) {showAlert( "danger_alert", "500 Internal server error" );} 
+        });
+    }
+
+    function RefreashDepartementTable(input) {
+        $( ".table-data" ).append("\
+            <tr>\
+                <th>#</th>\
+                <th class='d-none d-md-table-cell'>Label </th>\
+            </tr>\
+        ");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadDepartements")",
+            data : { input: input },
+            dataType: "text",
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $.each( data, function( key, value ) {
+                    $( ".table-data" ).append("\
+                        <tr>\
+                            <td> "+ value['id'] +" </td>\
+                            <td> "+ value['label'] +" </td>\
+                            <td>\
+                                <button class='btn btn-purple edit-departement' id='"+ value['id'] +"' type='button' data-toggle='modal' data-target='#EditDepartement'>\
+                                    <i class='fe fe-edit'></i>\
+                                </button>\
+                            </td>\
+                            <td>\
+                                <button class='btn btn-red delete-departement' id='"+ value['id'] +"' type='button'>\
+                                    <i class='fe fe-trash'></i>\
+                                </button>\
+                            </td>\
+                        </tr>\
+                    ");
+                }); 
+            },
+            error: function (req, status, error) {showAlert( "danger_alert", "500 Internal server error" );} 
+        });
+    }
+    
+    function RefreashModuleAffectationTable(input) {
+        $( ".table-data" ).append("\
+            <tr>\
+                <th>#</th>\
+                <th class='d-none d-md-table-cell'>Fromateur </th>\
+                <th class='d-none d-md-table-cell'>Module </th>\
+                <th class='d-none d-md-table-cell'>Groupe </th>\
+            </tr>\
+        ");
+    }
+
+</script>

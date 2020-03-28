@@ -1,0 +1,69 @@
+<script>
+
+$( document ).ready( function() {
+
+    $( ".formers" ).change( function() {
+
+        $( ".show-row" ).empty();
+
+        var id = $( this ).val();
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadModulesAffectations")",
+            dataType: "text",
+            data : {
+                former_id : id
+            },
+            success: function ( response ) {
+                var data = JSON.parse( response );
+                $.each ( data, function( key, value ) {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("LoadPourcentage")",
+                        dataType: "text",
+                        data : {
+                            module_affectation_id : value['id']
+                        },
+                        success: function ( response ) {
+                            var data = JSON.parse( response );
+                            
+                            var style = "width: "+ data +"%";
+                            $( ".show-row" ).append('\
+                            <div class="col-sm">\
+                                <div class="card">\
+                                    <div class="card-body text-center">\
+                                        <div class="h5">'+ value["group"]["label"] +'</div>\
+                                        <div class="h5">'+ value["module"]["title"] +'</div>\
+                                        <div class="progress progress-sm">\
+                                            <div class="progress-bar bg-red" style="'+ style +'"></div>\
+                                        </div>\
+                                        <div class="h5">'+ data +' %</div>\
+                                    </div>\
+                                </div>_\
+                            </div>\
+                            ');
+                        },
+                        error: function (req, status, error) 
+                        {
+                            ShowAlert( "danger_alert", "500 Internal server error" );
+                        } 
+                    });
+                })
+                
+            },
+            error: function (req, status, error) 
+            {
+                ShowAlert( "danger_alert", "500 Internal server error" );
+            } 
+        });
+
+            
+        
+    });
+
+
+    
+});
+
+</script>

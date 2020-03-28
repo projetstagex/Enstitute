@@ -1,0 +1,110 @@
+<script>
+
+    $(document).ready(function(){
+        $( ".add-save" ).click(function(){     
+            var date = new Date( $('#date_input_absence').val() );
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
+
+            var sessionID = $( "#session_input_absence" ).val() ;
+
+            $.each( 
+            $('input[type="checkbox"]'), function(k, v) {
+            if ( v.checked ) {
+                $.ajax({
+                type: "POST",
+                url: "@Url.Action("AddAbsence")",
+                dataType: "text",
+                data : {
+                    studentIN : v.value,
+                    sessionID : sessionID,
+                    year : year, 
+                    month : month, 
+                    day : day
+                },
+                success: function (msg) {
+                    data = JSON.parse(msg); //Response class
+                    ShowAlert( "success_alert", "Absence Added Succefully" );
+                },
+                error: function (req, status, error) {
+                    $("#myModal").modal('toggle');
+                    ShowAlert( "danger_alert", "500 internal server error" );
+                } 
+                });
+            } } ) 
+            $("#myModal").modal('toggle');
+        });
+
+
+        $( ".add-save-hour" ).click(function(){     
+            var date = new Date( $('#date_input_absence_hour').val() );
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
+
+            var from =  parseFloat( $( "#select_from_absence_hour" ).val() );
+            var to = parseFloat( $( "#select_to_absence_hour" ).val() );
+            var from_hour = parseInt( from );
+            var from_minute = parseInt( ( from - from_hour ) * 60 );
+            var to_hour = parseInt( to );
+            var to_minute = parseInt( ( to - to_hour ) * 60 ) ; 
+
+            var group_id = $( "#groups_select" ).val();
+            var former_id = $( "#select_former_absence_hour" ).val();
+            var day_id = $( "#select_day_absence_hour" ).val();
+            var time_part = $( "#select_timepart_absence_hour" ).val();
+            var session_id = null;
+
+            $.ajax({
+            type: "POST",
+            url: "@Url.Action("AddSession")",
+            dataType: "text",
+            async : false,
+            data : {
+                fh: from_hour,
+                fm: from_minute,
+                th: to_hour,
+                tm: to_minute,
+                time_part: time_part,
+                day_id: day_id,
+                former_id: former_id,
+                group_id: group_id,
+            },
+            success: function (msg) {
+                data = JSON.parse(msg); 
+                console.log(data);
+                session_id = data['id'];
+            },
+            error: function (req, status, error) {ShowAlert( "danger_alert", "500 internal server error" );} 
+            });
+
+
+            $.each( 
+            $('input[type="checkbox"]'), function(k, v) {
+            if ( v.checked ) {
+                $.ajax({
+                type: "POST",
+                url: "@Url.Action("AddAbsenceHour")",
+                dataType: "text",
+                data : {
+                    studentIN : v.value,
+                    year : year, 
+                    month : month, 
+                    day_date : day,
+                    session_id: session_id
+                },
+                success: function (msg) {
+                    data = JSON.parse(msg); //Response class
+                    ShowAlert( "success_alert", "Absence Added Succefully" );
+                },
+                error: function (req, status, error) {
+                    ShowAlert( "danger_alert", "500 internal server error" );
+                } 
+                });
+            } } ) 
+            $("#myModalHour").modal('toggle');
+        });
+    });
+
+</script>

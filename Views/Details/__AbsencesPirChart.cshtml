@@ -1,0 +1,47 @@
+<script>
+require(['c3', 'jquery'], function(c3, $) {
+	$(document).ready(function(){
+		var modules = @Html.Raw(ViewBag.Modulesjs);
+
+		columns = [];
+		couleurs = [
+			"blue-darker", 
+			"blue-light", 
+			"blue", 
+			"green-light", 
+			"green", 
+			"yellow", 
+			"orange", 
+			"blue-light"
+		];
+		names = {};
+		colors = {} ;
+
+		$.each(modules, function (key, value){
+			var i = key+1;
+			columns.push( ["data"+i , value['Module']['AbsencesCount'] ] );
+			colors[ "data"+i ] = tabler.colors[ couleurs[i] ];
+			names[ "data"+i ] = value['Module']["Title"];
+		});
+
+
+		var chart = c3.generate({
+			bindto: '#chart-pie', // id of chart wrapper
+			data: {
+				columns:  columns,
+				type: 'pie', // default type of chart
+				colors: colors,
+				names: names
+			},
+			axis: {},
+			legend: {
+				show: true, //hide legend
+			},
+			padding: {
+				bottom: 0,
+				top: 0
+			},
+		});
+	});
+});
+</script>

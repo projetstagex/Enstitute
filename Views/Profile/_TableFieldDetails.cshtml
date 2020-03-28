@@ -1,0 +1,22 @@
+<div class="col-lg-8">
+    <div class="card">
+        <table class="table card-table table-vcenter">
+            <tr>
+                <th>#</th>
+                <th class="d-none d-md-table-cell">Module</th>
+                <th class="d-none d-md-table-cell">Module Code</th>
+                <th class="d-none d-md-table-cell">Group</th>
+            </tr>
+@{int i = 0;}
+@foreach (var m in ViewBag.Modules){
+    <tr>
+        <td>@( i = i + 1 ) </td>
+        <td class="d-none d-md-table-cell">@m.Module.Title</td>
+        <td class="d-none d-md-table-cell">@m.Module.Code</td>
+        <td class="d-none d-md-table-cell">@m.Group.Label</td>
+    </tr>
+}
+
+        </table>
+    </div>
+</div>

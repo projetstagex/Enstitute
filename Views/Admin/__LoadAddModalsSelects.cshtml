@@ -1,0 +1,117 @@
+<script>
+
+    $( document ).ready( function() {
+
+        $( ".add-new-button" ).click( function() {
+
+            var id = $(this).attr("id");
+
+            if ( id == "module_add_btn" ){
+                $("#AddModule").modal('toggle');
+            }
+            else if ( id == "student_add_btn" ){
+                $("#AddStudent").modal('toggle');
+                $( "#student_group" ).empty();
+                $( "#student_gender" ).empty();
+                $.ajax({
+                type: "POST",
+                url: "@Url.Action("LoadGroups")",
+                dataType: "text",
+                success: function (msg) {
+                    data = JSON.parse(msg);
+                    $.each( data, function( key, value ) {
+                        $( "#student_group" ).append("<option id='"+ value['id'] +"'>"+ value['label'] +"</option>");
+                    }); 
+                },
+                error: function (req, status, error) {
+                    ShowAlert( "danger_alert", "500 Internal server error" );
+                } 
+                });
+
+                $.ajax({
+                type: "POST",
+                url: "@Url.Action("LoadGenders")",
+                dataType: "text",
+                success: function (msg) {
+                    data = JSON.parse(msg);
+                    $.each( data, function( key, value ) {
+                        $( "#student_gender" ).append("<option id='"+ value['id'] +"'>"+ value['label'] +"</option>");
+                    }); 
+                },
+                error: function (req, status, error) {
+                    ShowAlert( "danger_alert", "500 Internal server error" );
+                } 
+                });
+            }
+
+            else if ( id == "precision_add_btn" ){
+                $("#AddPrecision").modal('toggle');
+                $( "#precision_module" ).empty();
+                $.ajax({
+                type: "POST",
+                url: "@Url.Action("LoadModules")",
+                dataType: "text",
+                success: function (msg) {
+                    data = JSON.parse(msg);
+                    $.each( data, function( key, value ) {
+                        $( "#precision_module" ).append("<option id='"+ value['id'] +"'>"+ value['title'] +"</option>");
+                    }); 
+                },
+                error: function (req, status, error) {
+                    ShowAlert( "danger_alert", "500 Internal server error" );
+                } 
+                });
+            }
+
+            else if ( id == "context_add_btn" ){
+            }
+
+            else if ( id == "departement_add_btn" ){
+                $("#AddDepartement").modal('toggle');
+            }
+
+            else if ( id == "formation_add_btn" ){
+            }
+
+            else if ( id == "grade_add_btn" ){
+                $("#AddGrade").modal('toggle');
+            }
+
+            else if ( id == "sector_add_btn" ){
+            }
+
+            else if ( id == "group_add_btn" ){
+                $("#AddGroup").modal('toggle');
+                $( "#group_scholaryear" ).empty();
+                $( "#group_sector" ).empty();
+                $.ajax({
+                type: "POST",
+                url: "@Url.Action("LoadSectors")",
+                dataType: "text",
+                success: function (msg) {
+                    data = JSON.parse(msg);
+                    $.each( data, function( key, value ) {
+                        $( "#group_sector" ).append("<option id='"+ value['id'] +"'>"+ value['label'] +"</option>");
+                    }); 
+                },
+                error: function (req, status, error) {ShowAlert( "danger_alert", "500 Internal server error" );} 
+                });
+                $.ajax({
+                type: "POST",
+                url: "@Url.Action("LoadScholarYears")",
+                dataType: "text",
+                success: function (msg) {
+                    data = JSON.parse(msg);
+                    $.each( data, function( key, value ) {
+                        $( "#group_scholaryear" ).append("<option id='"+ value['id'] +"'>"+ value['code'] +"</option>");
+                    }); 
+                },
+                error: function (req, status, error) {ShowAlert( "danger_alert", "500 Internal server error" );} 
+                });
+
+
+            }
+        });
+    }); 
+
+</script>

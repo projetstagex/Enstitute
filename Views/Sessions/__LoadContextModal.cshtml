@@ -1,0 +1,48 @@
+<script>
+
+$(document).ready(function(){
+    $( ".event-disp" ).click(function(){
+        
+        $( "#modalContext" ).modal("toggle");
+        $( "#tree1" ).empty();
+        $( ".list-contexts-added" ).empty();
+        $( ".validator-add-context" ).empty();
+
+        var session_id =  $(this).attr("id") ;
+        var day_label = $( this ).attr( "data-day" );
+
+
+        localStorage.setItem("sessionID", session_id);
+        localStorage.setItem("dayLabel", day_label);
+
+
+        var former_id = "@ViewBag.ID";
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadModules")",
+            dataType: "text",
+            data: { 
+                formerID :  former_id,
+                sessionID : session_id
+            },
+            async: false,
+            success: function (brut_data) {
+                data = JSON.parse(brut_data);
+                $.each(data, function( k, v ){
+                    $( "#tree1" ).append( "<li style='font-size:14px; font-weight: bold;' > " + v[ 'title' ] + "<ul>");
+                    $.each(v[ 'precisions' ], function(x, y){
+                        $( "#tree1" ).append( "<li style='font-size:12px;margin-left:15px;font-weight:bold;' > " + y['label'] + "<ul>");
+                        $.each( y[ 'contexts' ], function( a, b ){
+                            $( "#tree1" ).append( "<li style='font-size:10px;margin-left:30px' id='li_before_a_" + b['id'] + "' > "+ b['label'] +" <button class='add-context-single' id='" + b['id'] + "' ><i class='fa fa-plus' style='color:green' aria-hidden='true'></i></button></li>");
+                        });
+                        $( "#tree1" ).append( "</ul></li>");
+                    });
+                    $( "#tree1" ).append( "</ul></li>");
+                });
+            }
+        });
+    });
+});
+
+</script>

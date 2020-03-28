@@ -1,0 +1,23 @@
+<script>
+
+$( document ).ready( function() {
+
+    $.ajax({
+        type: "POST",
+        url: "@Url.Action("LoadFormers")",
+        dataType: "text",
+        success: function (msg) {
+            data = JSON.parse(msg);
+            $.each(data, function( key, value ) {
+                $(".formers").append( "\
+                    <option value='"+ value["id"] +"'>" + value["firstName"] + value["lastName"] + "</option>\
+                ");
+            });
+        },
+        error: function (req, status, error) {
+            ShowAlert( "danger_alert", "500 Internal server error" );
+        } 
+    });
+});
+
+</script>

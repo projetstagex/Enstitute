@@ -1,0 +1,100 @@
+<script>
+    $(document).ready(function(){
+
+        $( ".add-save-changes-session" ).click(function(){
+
+            var module_affectation = parseInt( $( "#select_ma_session" ).val() );
+            var day = parseInt( $( "#select_day_session" ).val() );
+            var from =  parseFloat( $( "#select_from_session" ).val() );
+            var to = parseFloat( $( "#select_to_session" ).val() );
+            var time_part = parseInt( $( "#select_timepart" ).val() );
+
+            if ( from > to ) {
+                $( ".validator" ).html(" l'heure de fin doit etre superieure à l'heure de debut ");
+            }
+            else {
+                var former_id = "@ViewBag.ID";
+                var from_hour = parseInt( from );
+                var from_minute = parseInt( ( from - from_hour ) * 60 );
+                var to_hour = parseInt( to );
+                var to_minute = parseInt( ( to - to_hour ) * 60 ) ; 
+                var done = false;
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddSession")",
+                    dataType: "text",
+                    async: false,
+                    data: {
+                        formerID: former_id,
+                        groupID: $( "#select_group" ).val(),
+                        dayID: day,
+                        fh: from_hour,
+                        fm: from_minute,
+                        th: to_hour,
+                        tm: to_minute,
+                        time_part: time_part,
+                    },
+                    success: function (brut_data) {
+                        data = JSON.parse(brut_data);
+                        if ( data['code'] == 1 ){
+                            $( ".validator" ).html(" conflit de periode avec une autre seance ! ");
+                        }
+                        else {
+                            done = true;
+                        }
+                    },
+                    error: function (req, status, error) { 
+                        ShowAlert( "danger_alert", "500 internal server error " );
+                    } 
+                }); 
+                if (done == true){
+                    // empty the table of display 
+                    $( "#day_1" ).empty();$( "#day_2" ).empty();$( "#day_3" ).empty();$( "#day_4" ).empty();$( "#day_5" ).empty();$( "#day_6" ).empty();
+                    // refill table of display just undo here 
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("LoadSessions")",
+                        dataType: "text",
+                        data: { former_id :  former_id},
+                        async: false,
+                        success: function (brut_data) {
+                            data = JSON.parse(brut_data);
+                            $.each(data, function(k, v){
+                                var id = "#day_"+v["dayID"].toString();
+
+                                var from_hour = v['fromHour'] < 10 ? "0"+v['fromHour'].toString() : v['fromHour'].toString();
+                                
+                                var from_minute = v['fromMinute'] < 10 ? "0"+v['fromMinute'].toString() : v['fromMinute'].toString();
+
+                                var to_hour = v['toHour'] < 10 ? "0"+v['toHour'].toString() : v['toHour'].toString();
+
+                                var to_minute = v['toMinute'] < 10 ? "0"+v['toMinute'].toString() : v['toMinute'].toString();
+                                var start = from_hour + ":" + from_minute;
+                                var end = to_hour + ":" + to_minute;
+
+                                $( id ).html("\
+                                    <li class='cd-schedule__event'>\
+                                        <a \
+                                            data-start='" + start + "'\
+                                            data-end='" + end + "'\
+                                            data-content='event-abs-circuit'\
+                                            data-event='event-1'\
+                                            href='#0'\
+                                        >\
+                                            <em class='cd-schedule__name'>Abs Circuit</em>\
+                                        </a>\
+                                    </li>\
+                                ");
+                            });
+                        },
+                        error: function (req, status, error) { 
+                            ShowAlert( "danger_alert", error );
+                        } 
+                    }); 
+                    $("#myModal").modal('toggle');
+                }   
+            }
+        });
+
+    });
+</script>

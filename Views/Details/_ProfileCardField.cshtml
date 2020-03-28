@@ -1,0 +1,17 @@
+<div class="card card-profile">
+    <div class="card-body text-center">
+        <h3 class="mb-3">@ViewBag.Student.GetFullName()</h3>
+        <p class="mb-4"><strong>Age : </strong>@ViewBag.Student.GetAge() </p>
+        <p class="mb-4"><strong> Address : </strong>@ViewBag.Student.Address.StreetAdress@ViewBag.Student.Address.AppartementAdress</p>
+        <p class="mb-4"><strong> Phone : @ViewBag.Student.Phone  </strong></p>
+        <p class="mb-4"><strong> Email : @ViewBag.Student.Email </strong></p>
+        <p class="mb-4"><strong> Total Absences : @ViewBag.TotalAbsences </strong>  </p>
+        <p class="mb-4"><strong> Total Retards : @ViewBag.TotalDelays </strong>  </p>
+        <button class="btn btn-outline-primary btn-sm mail" data-toggle="modal" data-target="#ModalEmail" >
+            <span class="fa fa-envelope"></span> Mail the student
+        </button>
+        <button class="btn btn-outline-primary btn-sm call" >
+            <span class="fa fa-phone"></span> Call the student
+        </button>
+    </div>
+</div>

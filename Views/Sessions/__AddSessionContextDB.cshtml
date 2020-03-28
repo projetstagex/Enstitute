@@ -1,0 +1,57 @@
+<script>
+
+    $(document).ready(function(){
+        $( '.add-save-changes-context-session' ).click(function(){
+
+            var days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+
+            var date = new Date ($( "#date_input_context" ).val() );
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
+            
+            var day_label_input = days[date.getDay()];
+            var day_label_true = localStorage.getItem("dayLabel");
+            if ( day_label_true != day_label_input ){
+                $( ".validator-add-context" ).html( "<strong> Date entrée </strong> n'est pas convenable avec la date de seance ! " );
+            }
+            else {
+                var ERROR500 = false; 
+                $.each($(".list-contexts-added-units"), function(k, v)
+                {
+                    var context_id = v['id'];
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("AddSessionContext")",
+                        dataType: "text",
+                        data: { 
+                            contextID :  context_id,
+                            sessionID : parseInt(localStorage.getItem("sessionID")), 
+                            year : year,
+                            month: month, 
+                            day : day,
+                        },
+                        error : function(xhr, status, error){ ERROR500 = true;}
+                    });
+                });
+                $("#modalContext").modal("toggle");
+
+                if (ERROR500){
+                    ShowAlert( "danger_alert", "500 Internal server error !" );
+                }
+                else {
+                    ShowAlert( "success_alert", "l'operation est effectué avec succés" );
+                    localStorage.removeItem("dayLabel");
+                    localStorage.removeItem("sessionID");
+                }
+            }
+            
+
+
+
+
+        });
+    });
+
+</script>

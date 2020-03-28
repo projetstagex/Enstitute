@@ -1,0 +1,47 @@
+<script>
+
+    $( document ).ready( function() {
+
+        $( ".card-table" ).on('click', ".modal-check", function() {
+
+            var id = $(this).attr("id");
+
+            $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadOriginal")",
+            dataType: "text",
+            data :{ id : id },
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $( "#group_action" ).val( id );
+                $( "#group_id_original" ).val( data['id'] );
+                $( "#group_label_original" ).val( data['label'] );
+                $( "#group_code_original" ).val( data['code'] );
+            },
+            error: function (req, status, error) {
+                ShowAlert( "danger_alert", "500 Internal server error" );
+            } 
+            });
+
+            $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadModified")",
+            dataType: "text",
+            data :{ id : id },
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $( "#group_id_modif" ).val( data['id'] );
+                $( "#group_label_modif" ).val( data['label'] );
+                $( "#group_code_modif" ).val( data['code'] );
+            },
+            error: function (req, status, error) {
+                ShowAlert( "danger_alert", "500 Internal server error" );
+            } 
+            });
+
+        });
+
+
+    });
+
+</script>

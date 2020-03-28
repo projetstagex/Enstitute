@@ -1,0 +1,154 @@
+<script>
+
+$( document ).ready( function() {
+    
+    $( ".table-data" ).on('click', ".edit-module", function() {
+        var id = $( this ).attr("id");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadModule")",
+            dataType: "text",
+            data : {
+                module_id : id
+            },
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $( "#module_title_edit" ).val( data["title"] );
+                $( "#module_id_edit" ).val( data["id"] );
+                $( "#module_code_edit" ).val( data["code"] );
+                $( "#module_mutliplier_edit" ).val( data["multiplier"] );
+            },
+            error: function (req, status, error) {
+                showAlert( "danger_alert", "500 Internal server error" );
+            } 
+        });
+    });
+
+    $( ".table-data" ).on('click', ".edit-precision", function() {
+        var id = $( this ).attr("id");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadPrecision")",
+            dataType: "text",
+            data : {
+                precision_id : id
+            },
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $( "#precision_label_edit" ).val( data["label"] );
+                $( "#precision_code_edit" ).val( data["code"] );
+                $( "#precision_id_edit" ).val( data["id"] );
+            },
+            error: function (req, status, error) {
+                showAlert( "danger_alert", "500 Internal server error" );
+            } 
+        });
+    });
+
+    $( ".table-data" ).on('click', ".edit-group", function() {
+        var id = $( this ).attr("id");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadGroup")",
+            dataType: "text",
+            data : {
+                group_id : id
+            },
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $( "#group_label_edit" ).val( data["label"] );
+                $( "#group_code_edit" ).val( data["code"] );
+                $( "#group_id_edit" ).val( data["id"] );
+            },
+            error: function (req, status, error) {showAlert( "danger_alert", "500 Internal server error" );} 
+        });
+    });
+
+    $( ".table-data" ).on('click', ".edit-grade", function() {
+        var id = $( this ).attr("id");
+        console.log( id );
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadGrade")",
+            dataType: "text",
+            data : {
+                grade_id : id
+            },
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $( "#grade_label_edit" ).val( data["label"] );
+                $( "#grade_code_edit" ).val( data["code"] );
+                $( "#grade_id_edit" ).val( data["id"] );
+            },
+            error: function (req, status, error) {ShowAlert( "danger_alert", "500 Internal server error" );} 
+        });
+    });
+
+    $( ".table-data" ).on('click', ".edit-departement", function() {
+        var id = $( this ).attr("id");
+        console.log( id );
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadDepartement")",
+            dataType: "text",
+            data : {
+                departement_id : id
+            },
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $( "#departement_label_edit" ).val( data["label"] );
+                $( "#departement_id_edit" ).val( data["id"] );
+            },
+            error: function (req, status, error) {ShowAlert( "danger_alert", "500 Internal server error" );} 
+        });
+    });
+
+    $( ".table-data" ).on('click', ".edit-student", function() {
+        var id = $( this ).attr("id");
+        
+        console.log( id );
+
+        $( "#student_group_edit" ).empty();
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadGroups")",
+            dataType: "text",
+            success: function (msg) {
+                data = JSON.parse(msg);
+                $.each( data, function( key, value ) {
+                    $( "#student_group_edit" ).append("<option id='"+ value['id'] +"'>"+ value['label'] +"</option>")
+                });
+            },
+            error: function (req, status, error) {ShowAlert( "danger_alert", "500 Internal server error" );} 
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadStudent")",
+            dataType: "text",
+            data : {
+                student_id : id
+            },
+            success: function (msg) {
+                data = JSON.parse(msg)[0];
+                console.log( data );
+                $( "#student_firstname_edit" ).val( data["firstName"] );
+                $( "#student_lastname_edit" ).val( data["lastName"] );
+                $( "#student_username_edit" ).val( data["username"] );
+                $( "#student_nationality_edit" ).val( data["nationality"] );
+                $( "#student_email_edit" ).val( data["email"] );
+                $( "#student_phone_edit" ).val( data["phone"] );
+                $( "#student_group_edit" ).val( data["group"]['label'] );
+                $( "#student_inscriptionnumber_edit" ).val( data["inscriptionNumber"] );
+                $( "#student_id_edit" ).val( data["id"] );
+            },
+            error: function (req, status, error) {ShowAlert( "danger_alert", "500 Internal server error" );} 
+        });
+
+    });
+
+    
+});
+
+</script>

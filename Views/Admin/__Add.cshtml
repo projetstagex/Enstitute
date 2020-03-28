@@ -1,0 +1,192 @@
+<script>
+
+
+    $( document ).ready( function() {
+
+        $( ".btn-add" ).click( function() {
+
+            var id = $(this).attr("id");
+            
+            if ( id == "precision" ){
+                var label_input = $( "#precision_label" );
+                var code_input = $( "#precision_code" );
+                var module_id = $( "#precision_module" );
+                var label = htmlspecialchars(label_input);
+                var code = htmlspecialchars(code_input);
+                if ( label == "" || code == "" ){}
+                else if ( label < 3 || label > 50 || code < 3 || code > 10 ){}
+                else {
+                    $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddPrecision")",
+                    dataType: "text",
+                    data : {module_id: module_id, label: label, code: code},
+                    success: function (msg) {
+                        data = JSON.parse(msg);
+                        if ( data["code"] == 1 ){}
+                        else if ( data["code"] == 0 ){
+                            $("#AddModule").modal('toggle');
+                            ShowAlert( "success_alert", "Precision Added succesfully" );
+                        }
+                    },
+                    error: function (req, status, error) {
+                        ShowAlert( "danger_alert", "500 Internal server error" );
+                    } 
+                    });
+                }
+            }
+
+            else if ( id == "module" ){
+                var title_input = $( "#module_title" );
+                var code_input = $( "#module_code" );
+                var multip = $( "#module_multiplier" );
+                var title = htmlspecialchars(title_input);
+                var code = htmlspecialchars(code_input);
+                if ( title == "" || code == "" || multip <= 0  ){}
+                else if ( title < 3 || title > 50 || code < 3 || code > 10 ){}
+                else {
+                    $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddModule")",
+                    dataType: "text",
+                    data : {title : title,code: code, multiplier : multip},
+                    success: function (msg) {
+                        data = JSON.parse(msg);
+                        if ( data["code"] == 1 ){}
+                        else if ( data["code"] == 0 ){
+                            $("#AddModule").modal('toggle');
+                            ShowAlert( "success_alert", "Module Added succesfully" );
+                        }
+                    },
+                    error: function (req, status, error) {
+                        ShowAlert( "danger_alert", "500 Internal server error" );
+                    } 
+                    });
+                }
+            }
+
+            else if ( id == "departement" ){
+            }
+
+            else if ( id == "formation" ){
+            }
+
+            else if ( id == "sector" ){
+            }
+
+            else if ( id == "grade" ){
+            }
+
+            else if ( id == "group" ){
+                var code = $( "#group_code" ).val();
+                var label = $( "#group_label" ).val();
+                var scholaryear_code = $( "#group_scholaryear" ).val();
+                var sector_label = $( "#group_sector" ).val();
+
+                if( code == "" || label == "" ){
+
+                }
+                else {
+                    $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddGroup")",
+                    dataType: "text",
+                    data : {
+                        code: code, 
+                        label: label,
+                        scholaryear_code: scholaryear_code,
+                        sector_label: sector_label,
+                    },
+                    success: function (msg) {
+                        data = JSON.parse(msg);
+                        if ( data["code"] == 1 ){
+                            $( ".table-data" ).empty();
+                            RefreashGroupTable();
+                        }
+                        else if ( data["code"] == 0 ){
+                            $("#AddGroup").modal('toggle');
+                            $( ".table-data" ).empty();
+                            RefreashGroupTable();
+                            ShowAlert( "success_alert", "Precision Added succesfully" );
+                        }
+                    },
+                    error: function (req, status, error) {
+                        ShowAlert( "danger_alert", "500 Internal server error" );
+                    } 
+                    });
+                }
+            }
+            
+            else if ( id == "student" ){
+                var date = new Date( $('#student_date').val() );
+                var day = date.getDate();
+                var month = date.getMonth() + 1;
+                var year = date.getFullYear();
+                var first_name = $( "#student_firstname" ).val();
+                var last_name = $( "#student_lastname" ).val();
+                var group = $( "#student_group" ).val();
+                var email = $( "#student_email" ).val();
+                var phone = $( "#student_phone" ).val();
+                var nationality = $( "#student_nationality" ).val();
+                var gender = $( "#student_gendre" ).val();
+                var zipcode = $( "#student_gendre" ).val();
+                var city = $( "#student_gendre" ).val();
+                var street = $( "#student_gendre" ).val();
+                var appartement = $( "#student_gendre" ).val();
+                var password = $( "#student_password" ).val();
+                var nic = $( "#student_nic" ).val();
+            
+                if ( nationality == "" || phone == "" || email == "" || last_name == "" || first_name == "" || 
+                username == "" || street == "" || city == "" || zipcode == "" ){}
+                else {
+                    $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddStudent")",
+                    dataType: "text",
+                    data : {
+                        first_name: first_name, 
+                        last_name: last_name,
+                        email: email,
+                        phone: phone,
+                        nationality: nationality,
+                        gender_label: gender_label,
+                        group_label :  group_label,
+                        street :  street,
+                        appartement :  appartement,
+                        zipcode :  zipcode,
+                        city :  city,
+                        day: day,
+                        month: month, 
+                        year: year,
+                        password :password,
+                        nic: nic
+                    },
+                    success: function (msg) {
+                        data = JSON.parse(msg);
+                        if ( data["code"] == 1 ){
+                            $( ".table-data" ).empty();
+                            RefreashStudentTable();
+                        }
+                        else if ( data["code"] == 0 ){
+                            $("#AddStudent").modal('toggle');
+                            ShowAlert( "success_alert", "Precision Added succesfully" );
+                        }
+                    },
+                    error: function (req, status, error) {
+                        ShowAlert( "danger_alert", "500 Internal server error" );
+                    } 
+                    });
+                }
+
+
+            }
+
+            else if ( id == "context" ){
+            }
+
+            
+
+        });
+    }); 
+
+</script>
